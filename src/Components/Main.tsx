@@ -24,7 +24,25 @@ export const Main: FunctionComponent = () => {
     initRequest: true,
     getTweets: false
   });
+  const [scrolling, setScrolling] = useState(false);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [isTop, setIsTop] = useState(false);
+  const [isBottom, setIsBottom] = useState(false);
   useEffect(() => {
+    const onScroll = (e: any) => {
+      const scrollYPos = window.scrollHeight;
+      const scrollTopPos = e.target.documentElement.scrollTop;
+      console.log(`scrollTOp is: ${scrollTopPos}`);
+      console.log(`scrollY is: ${scrollYPos}`);
+      if (scrollTopPos === scrollYPos) console.log("You're at the bottom");
+      setScrollTop(e.target.documentElement.scrollTop);
+      setScrolling(e.target.documentElement.scrollTop > scrollTop);
+    };
+    window.addEventListener("scroll", onScroll);
+    // return window.removeEventListener("scroll", onScroll);
+  }, [scrollTop]);
+  useEffect(() => {
+    console.log(scrollTop);
     let isProcessing = false;
     const count = 10;
     const updateTweetsIntervalFunc = setInterval(() => {
